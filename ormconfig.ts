@@ -1,11 +1,25 @@
-export default {
-  "type": "mysql",
-  "host": "localhost",
-  "port": 3306,
-  "username": "root",
-  "password": "",
-  "database": "arifici",
-  "logging": true,
-  "synchronize": true,
-  "entities": [ 'server/domain/*.ts' ]
-}
+export default [
+  {
+    'environment': 'dev',
+    'name': 'default',
+    'type': 'mysql',
+    'host': 'localhost',
+    'port': 3306,
+    'username': 'root',
+    'password': '',
+    'database': 'arifici',
+    'logging': true,
+    'synchronize': true,
+    'entities': ['server/domain/*.ts'],
+  },
+  {
+    'environment': 'test',
+    'name': 'test',
+    'type': 'sqlite',
+    'database': ':memory:',
+    'dropSchema': true,
+    'logging': false,
+    'synchronize': true,
+    'entities': ['server/domain/*.ts'],
+  },
+]

@@ -5,15 +5,14 @@ import logger from 'morgan'
 import indexRouter from './routes/index'
 import filmsRouter from './routes/films'
 import { StatusCodes } from 'http-status-codes'
-import { BusinessError } from './domain/errors'
 import bodyParser from 'body-parser'
 
-// error handler
-function errorHandler(err: BusinessError | Error, request: Request, response: Response, _: NextFunction) {
+// error handler: err could be Error | NotFoundError | BusinessError
+function errorHandler(err: any, request: Request, response: Response, _: NextFunction) {
   console.log('ERROR ******************************************************************')
   console.log(JSON.parse(JSON.stringify(err)))
-  const status = (err instanceof BusinessError && err.userOrigin) ? err.statusCode() : StatusCodes.INTERNAL_SERVER_ERROR
-  const message = (err instanceof BusinessError && err.userOrigin) ? err.message : 'An error has occurred. Please report a new issue.'
+  const status = (err.userOrigin) ? err.statusCode() : StatusCodes.INTERNAL_SERVER_ERROR
+  const message = (err.userOrigin) ? err.message : 'An error has occurred. Please report a new issue.'
   response.status(status).send(message)
 }
 

@@ -1,5 +1,5 @@
 import { Film } from '../domain/film'
-import { createConnection, Connection, EntityManager } from 'typeorm'
+import { createConnection, EntityManager } from 'typeorm'
 
 /**
  * Class is private
@@ -11,8 +11,8 @@ export class FilmService {
     this.initialize()
   }
 
-  async initialize() {
-    const connection = await createConnection()
+  async initialize(environment = 'dev') {
+    const connection = await createConnection(environment)
     connection.synchronize()
     this.entityManager = connection.createEntityManager()
   }
@@ -26,7 +26,6 @@ export class FilmService {
   }
 
   async addFilm(film: Film) {
-    console.log('film', film)
     await this.entityManager!.save(film)
   }
 
